@@ -23,6 +23,7 @@ function GameController() {
 
         const row = determineRow(squareId, signToAdd);
         const column = determineColumn(squareId, signToAdd);
+        updateDiagonals(squareId, signToAdd);
         
         document.getElementById(squareId).textContent = signToAdd;
         determineWinner();
@@ -70,6 +71,15 @@ function GameController() {
             return 3;
         }
     };
+
+    function updateDiagonals(squareId, signToAdd) {
+        if (squareId === 1 || squareId === 5 || squareId === 9) {
+            signToAdd === 0 ? diagonals[0]++ : diagonals[0]--;
+        }
+        if (squareId === 3 || squareId === 5 || squareId === 7) {
+            signToAdd === 0 ? diagonals[1]++ : diagonals[1]--;
+        }
+    }
 
     function determineWinner(){
         if (rows.includes(-3) || columns.includes(-3) || diagonals.includes(-3)) {
