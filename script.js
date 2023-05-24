@@ -13,24 +13,21 @@ const playerTwoTurnName = document.querySelector('#player-two-name');
 const restartBtn = document.querySelector('#restart');
 
 function GameController() {
-    const playerOne = {
-        name: (nameOne.value !== "") ? nameOne.value : "Player 1",
-        number: 1,
-        turn: true
-    }
-    const playerTwo = {
-        name: (nameTwo.value !== "") ? nameTwo.value : "Player 2",
-        number: 2,
-        turn: false
-    }
-
-    playerOneTurnName.innerHTML = playerOne.name;
-    playerTwoTurnName.innerHTML = playerTwo.name;
-
-    const rows = [0, 0, 0];
-    const columns = [0, 0, 0];
-    const diagonals = [0, 0];
-    let squaresFilled = 0;
+        const playerOne = {
+            name: "Player 1",
+            number: 1,
+            turn: true
+        }
+        const playerTwo = {
+            name: "Player 2",
+            number: 2,
+            turn: false
+        }
+    
+        const rows = [0, 0, 0];
+        const columns = [0, 0, 0];
+        const diagonals = [0, 0];
+        let squaresFilled = 0;
 
     const playRound = (squareId) => {
 
@@ -104,12 +101,12 @@ function GameController() {
 
     function determineWinner(){
         if (rows.includes(-3) || columns.includes(-3) || diagonals.includes(-3)) {
-            winnerField.textContent = playerOne.name + " is a winner!";
+            winnerField.textContent = nameOne.value + " is a winner!";
             gameScreen.style.display = 'none';
             winnerScreen.style.display = 'flex';
         }
         else if (rows.includes(3) || columns.includes(3) || diagonals.includes(3)) {
-            winnerField.textContent = playerTwo.name + " is a winner!";
+            winnerField.textContent = nameTwo.value + " is a winner!";
             gameScreen.style.display = 'none';
             winnerScreen.style.display = 'flex';
         }
@@ -136,12 +133,15 @@ function GameController() {
         squaresFilled = 0;
     }
 
-    return {playRound, resetGame};
+    return {playRound, resetGame, playerOne, playerTwo};
 }
 
 let newGame = new GameController();
 
 startBtn.addEventListener('click', () => {
+    playerOneTurnName.innerHTML = nameOne.value;
+    playerTwoTurnName.innerHTML = nameTwo.value;
+
     startScreen.style.display = 'none';
     gameScreen.style.display = 'flex';
 
