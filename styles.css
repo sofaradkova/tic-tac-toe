@@ -52,7 +52,7 @@ input:focus {
 #restart {
     width: 102px;
     height: 51px;
-    background-color: #FF002B;
+    background-color: #9dbf9e;
     border-radius: 100px;
     border: 0px solid;
     font-size: 20px;
@@ -62,7 +62,7 @@ input:focus {
 
 #start-game:hover,
 #restart:hover {
-    background-color: #CF0023;
+    background-color: #7B987C;
     cursor: pointer;
 }
 
@@ -101,6 +101,7 @@ input:focus {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: rgba(0, 0, 255, 0);
 }
 
 #player-one,

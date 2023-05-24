@@ -41,6 +41,7 @@ function GameController() {
         updateDiagonals(squareId, signToAdd);
         
         document.getElementById(squareId).textContent = signToAdd;
+        document.getElementById(squareId).style.backgroundColor = (signToAdd===0) ? '#d0d6b5' : '#9dbf9e';
         squaresFilled++;
         determineWinner();
     }
@@ -50,13 +51,13 @@ function GameController() {
             playerOne.turn = false;
             playerTwo.turn = true;
             playerOneTurn.style.backgroundColor = "#F2F2F2";
-            playerTwoTurn.style.backgroundColor = "#FF002B";
+            playerTwoTurn.style.backgroundColor = "#d0d6b5";
             return 1;
         }
         else {
             playerOne.turn = true;
             playerTwo.turn = false;
-            playerOneTurn.style.backgroundColor = "#FF002B";
+            playerOneTurn.style.backgroundColor = "#9dbf9e";
             playerTwoTurn.style.backgroundColor = "#F2F2F2";
             return 0;
         }
@@ -144,7 +145,7 @@ startBtn.addEventListener('click', () => {
     startScreen.style.display = 'none';
     gameScreen.style.display = 'flex';
 
-    playerOneTurn.style.backgroundColor = "#FF002B";
+    playerOneTurn.style.backgroundColor = "#9dbf9e";
 
     squares.forEach((square) =>
         square.addEventListener('click', (event) => {
@@ -159,11 +160,12 @@ restartBtn.addEventListener('click', () => {
     winnerScreen.style.display = 'none';
     gameScreen.style.display = 'flex';
 
-    playerOneTurn.style.backgroundColor = "#FF002B";
-    playerTwoTurn.style.backgroundColor = "#F2F2F2";
+    playerOneTurn.style.backgroundColor = "#F2F2F2";
+    playerTwoTurn.style.backgroundColor = "#d0d6b5";
 
     squares.forEach((square) => {
         square.innerHTML = "";
+        square.style.backgroundColor = "#F2F2F2";
         square.addEventListener('click', (event) => {
             if (square.textContent === '') {
                 newGame.playRound(+square.id);
