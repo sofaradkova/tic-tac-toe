@@ -10,6 +10,7 @@ const playerOneTurn = document.querySelector('#player-one');
 const playerTwoTurn = document.querySelector('#player-two');
 const playerOneTurnName = document.querySelector('#player-one-name');
 const playerTwoTurnName = document.querySelector('#player-two-name');
+const restartBtn = document.querySelector('#restart');
 
 function GameController() {
     const playerOne = {
@@ -118,23 +119,58 @@ function GameController() {
         }
     };
 
-    return {playRound};
+    function resetGame() {
+        for (var i = 0; i < 3; i++) {
+            rows[i] = 0;
+        }
+
+        for (var i = 0; i < 3; i++) {
+            columns[i] = 0;
+        }
+
+        for (var i = 0; i < 2; i++) {
+            diagonals[i] = 0;
+        }
+
+        squaresFilled = 0;
+    }
+
+    return {playRound, resetGame};
 }
+
+let newGame = new GameController();
 
 startBtn.addEventListener('click', () => {
     startScreen.style.display = 'none';
     gameScreen.style.display = 'flex';
 
-    let newGame = new GameController();
     playerOneTurn.style.backgroundColor = "#FF002B";
 
-    if(winnerField.textContent==="") {
-        squares.forEach((square) =>
+    squares.forEach((square) =>
         square.addEventListener('click', (event) => {
             if (square.textContent === '') {
                 newGame.playRound(+square.id);
             }
         })
     );
-    }
 });
+
+restartBtn.addEventListener('click', () => {
+    winnerScreen.style.display = 'none';
+    gameScreen.style.display = 'flex';
+
+    playerOneTurn.style.backgroundColor = "#FF002B";
+    playerTwoTurn.style.backgroundColor = "#F2F2F2";
+
+    squares.forEach((square) => {
+        square.innerHTML = "";
+        square.addEventListener('click', (event) => {
+            if (square.textContent === '') {
+                newGame.playRound(+square.id);
+            }
+        })
+    });
+
+    newGame.resetGame();
+});
+
