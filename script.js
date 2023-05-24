@@ -1,21 +1,35 @@
 const squares = document.querySelectorAll('.square');
 const winnerField = document.querySelector('#winner-field');
+const startBtn = document.querySelector('#start-game');
+const startScreen = document.querySelector('#start-screen');
+const gameScreen = document.querySelector('#game-screen');
+const winnerScreen = document.querySelector('#winner-screen');
+const nameOne = document.querySelector('#name-one');
+const nameTwo = document.querySelector('#name-two');
+const playerOneTurn = document.querySelector('#player-one');
+const playerTwoTurn = document.querySelector('#player-two');
+const playerOneTurnName = document.querySelector('#player-one-name');
+const playerTwoTurnName = document.querySelector('#player-two-name');
 
 function GameController() {
     const playerOne = {
-        name: 'Player One',
+        name: (nameOne.value !== "") ? nameOne.value : "Player 1",
         number: 1,
         turn: true
     }
     const playerTwo = {
-        name: 'Player Two',
+        name: (nameTwo.value !== "") ? nameTwo.value : "Player 2",
         number: 2,
         turn: false
     }
 
+    playerOneTurnName.innerHTML = playerOne.name;
+    playerTwoTurnName.innerHTML = playerTwo.name;
+
     const rows = [0, 0, 0];
     const columns = [0, 0, 0];
     const diagonals = [0, 0];
+    let squaresFilled = 0;
 
     const playRound = (squareId) => {
 
@@ -26,6 +40,7 @@ function GameController() {
         updateDiagonals(squareId, signToAdd);
         
         document.getElementById(squareId).textContent = signToAdd;
+        squaresFilled++;
         determineWinner();
     }
 
@@ -33,11 +48,15 @@ function GameController() {
         if (playerOne.turn) {
             playerOne.turn = false;
             playerTwo.turn = true;
+            playerOneTurn.style.backgroundColor = "#F2F2F2";
+            playerTwoTurn.style.backgroundColor = "#FF002B";
             return 1;
         }
         else {
             playerOne.turn = true;
             playerTwo.turn = false;
+            playerOneTurn.style.backgroundColor = "#FF002B";
+            playerTwoTurn.style.backgroundColor = "#F2F2F2";
             return 0;
         }
     }
@@ -83,22 +102,39 @@ function GameController() {
 
     function determineWinner(){
         if (rows.includes(-3) || columns.includes(-3) || diagonals.includes(-3)) {
-            winnerField.textContent = "Player one is a winner";
+            winnerField.textContent = playerOne.name + " is a winner!";
+            gameScreen.style.display = 'none';
+            winnerScreen.style.display = 'flex';
         }
         else if (rows.includes(3) || columns.includes(3) || diagonals.includes(3)) {
-            winnerField.textContent = "Player two is a winner";
+            winnerField.textContent = playerTwo.name + " is a winner!";
+            gameScreen.style.display = 'none';
+            winnerScreen.style.display = 'flex';
+        }
+        else if (squaresFilled === 9) {
+            winnerField.textContent = "It's a tie!";
+            gameScreen.style.display = 'none';
+            winnerScreen.style.display = 'flex';
         }
     };
 
     return {playRound};
 }
 
-let newGame = new GameController();
+startBtn.addEventListener('click', () => {
+    startScreen.style.display = 'none';
+    gameScreen.style.display = 'flex';
 
-squares.forEach((square) =>
-    square.addEventListener('click', (event) => {
-        if (square.textContent === '') {
-            newGame.playRound(+square.id);
-        }
-    })
-);
+    let newGame = new GameController();
+    playerOneTurn.style.backgroundColor = "#FF002B";
+
+    if(winnerField.textContent==="") {
+        squares.forEach((square) =>
+        square.addEventListener('click', (event) => {
+            if (square.textContent === '') {
+                newGame.playRound(+square.id);
+            }
+        })
+    );
+    }
+});
